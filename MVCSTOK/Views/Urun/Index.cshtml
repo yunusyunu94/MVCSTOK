@@ -1,0 +1,57 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@using MVCSTOK.Models.Entity;
+@model IPagedList<Tbl_Urunler>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<table id="tbl1" class="table table-bordered ">
+    <thead>
+
+
+        <tr>
+            <th>URUN ID</th>
+            <th>URUN AD</th>
+            <th>MARKASI</th>
+            <th>KATEGORİ</th>
+            <th>FİYAT</th>
+            <th>STOK</th>
+            <th>SİL</th>
+            <th>GÜNCELLE</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var urn in Model)
+        {
+            <tr>
+                <th>@urn.UrunID</th>
+                <td>@urn.UrunAd</td>
+                <td>@urn.Marka</td>
+                <td>@urn.Tbl_Kategoriler.KategoriyAd</td>
+                <td>@urn.Fiyat</td>
+                <td>@urn.Stok</td>
+                <td><a href="/Urun/Sil/@urn.UrunID" class="btn btn-danger">SİL</a></td>
+                <td><a href="/Urun/UrunGetir/@urn.UrunID" class="btn btn-success">GÜNCELLE</a></td>
+            </tr>
+        }
+    </tbody>
+    @Html.PagedListPager(Model, sayfa => Url.Action("Index", new { sayfa }), PagedListRenderOptions.Classic)
+</table>
+
+<a href="/Urun/UrunEkle/" class="btn btn-primary">Yeni Ürün Ekle</a>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+
+
+<script>
+    var table = new DataTable('#tbl1', {
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/tr.json',
+        },
+    });
+
+</script>
+
